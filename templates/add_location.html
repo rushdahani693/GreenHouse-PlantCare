@@ -1,0 +1,56 @@
+{% extends "base.html" %}
+
+{% block title %}Add Location - Greenhouse Manager{% endblock %}
+
+{% block content %}
+<h1>Add New Location</h1>
+
+<form method="POST" class="mt-4">
+    <div class="mb-3">
+        <label for="name" class="form-label">Name</label>
+        <input type="text" class="form-control" id="name" name="name" required>
+    </div>
+    
+    <div class="mb-3">
+        <label for="type" class="form-label">Type</label>
+        <select class="form-control" id="type" name="type">
+            <option value="Tropical">Tropical</option>
+            <option value="Temperate">Temperate</option>
+            <option value="Desert">Desert</option>
+            <option value="Indoor">Indoor</option>
+            <option value="Outdoor">Outdoor</option>
+        </select>
+    </div>
+    
+    <div class="mb-3">
+        <label for="size" class="form-label">Size (m²)</label>
+        <input type="number" step="0.01" class="form-control" id="size" name="size" required>
+    </div>
+    
+    <div class="mb-3">
+        <label for="temperature_control" class="form-label">Temperature Control</label>
+        <select class="form-control" id="temperature_control" name="temperature_control">
+            <option value="Automated">Automated</option>
+            <option value="Manual">Manual</option>
+            <option value="Natural">Natural</option>
+        </select>
+    </div>
+    
+    <div class="mb-3">
+        <label for="humidity_control" class="form-label">Humidity Control</label>
+        <select class="form-control" id="humidity_control" name="humidity_control">
+            <option value="Automated">Automated</option>
+            <option value="Manual">Manual</option>
+            <option value="Natural">Natural</option>
+        </select>
+    </div>
+    
+    <div class="mb-3">
+        <label for="capacity" class="form-label">Capacity (plants)</label>
+        <input type="number" class="form-control" id="capacity" name="capacity" required>
+    </div>
+    
+    <button type="submit" class="btn btn-success">Add Location</button>
+    <a href="{{ url_for('locations') }}" class="btn btn-secondary">Cancel</a>
+</form>
+{% endblock %}

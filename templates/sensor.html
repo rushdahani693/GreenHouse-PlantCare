@@ -1,0 +1,133 @@
+{% extends "base.html" %}
+
+{% block title %}Sensor Data - {{ plant.name }}{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-md-12">
+        <div class="d-flex justify-content-between align-items-center">
+            <div>
+                <h1>Sensor Data for {{ plant.name }}</h1>
+                <p class="lead">Monitoring environmental conditions</p>
+            </div>
+            <a href="{{ url_for('plants') }}" class="btn btn-secondary">Back to Plants</a>
+        </div>
+    </div>
+</div>
+
+<div class="row mb-4">
+    <div class="col-md-12">
+        <div class="card">
+            <div class="card-header">Add New Sensor Reading</div>
+            <div class="card-body">
+                <form method="POST" action="{{ url_for('add_sensor_data', plant_id=plant.plant_id) }}">
+                    <div class="row">
+                        <div class="col-md-2">
+                            <div class="mb-3">
+                                <label for="temperature" class="form-label">Temperature (°C)</label>
+                                <input type="number" step="0.01" class="form-control" id="temperature" name="temperature" required>
+                            </div>
+                        </div>
+                        
+                        <div class="col-md-2">
+                            <div class="mb-3">
+                                <label for="humidity" class="form-label">Humidity (%)</label>
+                                <input type="number" step="0.01" class="form-control" id="humidity" name="humidity" required>
+                            </div>
+                        </div>
+                        
+                        <div class="col-md-2">
+                            <div class="mb-3">
+                                <label for="soil_moisture" class="form-label">Soil Moisture (%)</label>
+                                <input type="number" step="0.01" class="form-control" id="soil_moisture" name="soil_moisture" required>
+                            </div>
+                        </div>
+                        
+                        <div class="col-md-2">
+                            <div class="mb-3">
+                                <label for="ph_level" class="form-label">pH Level</label>
+                                <input type="number" step="0.01" class="form-control" id="ph_level" name="ph_level" required>
+                            </div>
+                        </div>
+                        
+                        <div class="col-md-2">
+                            <div class="mb-3">
+                                <label for="light_intensity" class="form-label">Light Intensity</label>
+                                <input type="number" step="0.01" class="form-control" id="light_intensity" name="light_intensity" required>
+                            </div>
+                        </div>
+                        
+                        <div class="col-md-2">
+                            <div class="mb-3">
+                                <label class="form-label">&nbsp;</label>
+                                <button type="submit" class="btn btn-success form-control">Add Reading</button>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="card">
+            <div class="card-header">Sensor History</div>
+            <div class="card-body">
+                {% if sensor_data %}
+                <div class="table-responsive">
+                    <table class="table table-striped">
+                        <thead>
+                            <tr>
+                                <th>Date/Time</th>
+                                <th>Temperature (°C)</th>
+                                <th>Humidity (%)</th>
+                                <th>Soil Moisture (%)</th>
+                                <th>pH Level</th>
+                                <th>Light Intensity</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for data in sensor_data %}
+                            <tr>
+                                <td>{{ data['recorded_at'] }}</td>
+                                <td>{{ data.temperature }}</td>
+                                <td>{{ data.humidity }}</td>
+                                <td>{{ data.soil_moisture }}</td>
+                                <td>{{ data.ph_level }}</td>
+                                <td>{{ data.light_intensity }}</td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+                {% else %}
+                <p>No sensor data available for this plant.</p>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row mt-4">
+    <div class="col-md-12">
+        <div class="card">
+            <div class="card-header">Optimal Conditions</div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-2">
+                        <p><strong>Temperature:</strong> {{ plant.optimal_temp }}°C</p>
+                    </div>
+                    <div class="col-md-2">
+                        <p><strong>Humidity:</strong> {{ plant.optimal_humidity }}%</p>
+                    </div>
+                    <div class="col-md-2">
+                        <p><strong>pH Level:</strong> {{ plant.optimal_ph }}</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

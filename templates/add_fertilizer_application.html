@@ -1,0 +1,47 @@
+{% extends "base.html" %}
+
+{% block title %}Add Fertilizer Application - {{ plant.name }}{% endblock %}
+
+{% block content %}
+<h1>Add Fertilizer Application for {{ plant.name }}</h1>
+
+<form method="POST" class="mt-4">
+    <div class="mb-3">
+        <label for="fertilizer_id" class="form-label">Fertilizer</label>
+        <select class="form-control" id="fertilizer_id" name="fertilizer_id" required>
+            <option value="">Select a fertilizer...</option>
+            {% for fertilizer in fertilizers %}
+            <option value="{{ fertilizer.fertilizer_id }}">{{ fertilizer.name }} ({{ fertilizer.npk_ratio }})</option>
+            {% endfor %}
+        </select>
+    </div>
+    
+    <div class="mb-3">
+        <label for="caretaker_id" class="form-label">Caretaker</label>
+        <select class="form-control" id="caretaker_id" name="caretaker_id">
+            <option value="">Select a caretaker...</option>
+            {% for caretaker in caretakers %}
+            <option value="{{ caretaker.caretaker_id }}">{{ caretaker.name }}</option>
+            {% endfor %}
+        </select>
+    </div>
+    
+    <div class="mb-3">
+        <label for="amount" class="form-label">Amount</label>
+        <input type="number" step="0.01" class="form-control" id="amount" name="amount" required>
+    </div>
+    
+    <div class="mb-3">
+        <label for="application_date" class="form-label">Application Date</label>
+        <input type="date" class="form-control" id="application_date" name="application_date" required>
+    </div>
+    
+    <div class="mb-3">
+        <label for="notes" class="form-label">Notes</label>
+        <textarea class="form-control" id="notes" name="notes" rows="3"></textarea>
+    </div>
+    
+    <button type="submit" class="btn btn-success">Add Application</button>
+    <a href="{{ url_for('fertilizer_applications', plant_id=plant.plant_id) }}" class="btn btn-secondary">Cancel</a>
+</form>
+{% endblock %}

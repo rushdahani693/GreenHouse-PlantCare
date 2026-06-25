@@ -1,0 +1,87 @@
+{% extends "base.html" %}
+
+{% block title %}Alerts - {{ plant.name }}{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-md-12">
+        <div class="d-flex justify-content-between align-items-center">
+            <div>
+                <h1>Alerts for {{ plant.name }}</h1>
+                <p class="lead">Environmental condition warnings</p>
+            </div>
+            <a href="{{ url_for('plants') }}" class="btn btn-secondary">Back to Plants</a>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="card">
+            <div class="card-header">Alert History</div>
+            <div class="card-body">
+                {% if alerts %}
+                <div class="table-responsive">
+                    <table class="table table-striped">
+                        <thead>
+                            <tr>
+                                <th>Date/Time</th>
+                                <th>Message</th>
+                                <th>Severity</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for alert in alerts %}
+                            <tr>
+                                <td>{{ alert['created_at'] }}</td>
+                                <td>{{ alert.message }}</td>
+                                <td>
+                                    <span class="badge bg-{% if alert.severity == 'high' or alert.severity == 'critical' %}danger{% elif alert.severity == 'medium' %}warning{% else %}secondary{% endif %}">
+                                        {{ alert.severity }}
+                                    </span>
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+                {% else %}
+                <p>No alerts for this plant.</p>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row mt-4">
+    <div class="col-md-12">
+        <div class="card">
+            <div class="card-header">Plant Information</div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-3">
+                        <p><strong>Name:</strong> {{ plant.name }}</p>
+                    </div>
+                    <div class="col-md-3">
+                        <p><strong>Species:</strong> {{ plant.species }}</p>
+                    </div>
+                    <div class="col-md-3">
+                        <p><strong>Growth Stage:</strong> {{ plant.growth_stage }}</p>
+                    </div>
+                </div>
+                
+                <div class="row mt-3">
+                    <div class="col-md-12">
+                        <h5>Optimal Conditions:</h5>
+                        <ul>
+                            <li><strong>Temperature:</strong> {{ plant.optimal_temp }}°C</li>
+                            <li><strong>Humidity:</strong> {{ plant.optimal_humidity }}%</li>
+                            <li><strong>pH Level:</strong> {{ plant.optimal_ph }}</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

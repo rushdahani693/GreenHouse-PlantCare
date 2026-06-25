@@ -1,0 +1,56 @@
+{% extends "base.html" %}
+
+{% block title %}Edit Location - Greenhouse Manager{% endblock %}
+
+{% block content %}
+<h1>Edit Location</h1>
+
+<form method="POST" class="mt-4">
+    <div class="mb-3">
+        <label for="name" class="form-label">Name</label>
+        <input type="text" class="form-control" id="name" name="name" value="{{ location.name }}" required>
+    </div>
+    
+    <div class="mb-3">
+        <label for="type" class="form-label">Type</label>
+        <select class="form-control" id="type" name="type">
+            <option value="Tropical" {% if location.type == 'Tropical' %}selected{% endif %}>Tropical</option>
+            <option value="Temperate" {% if location.type == 'Temperate' %}selected{% endif %}>Temperate</option>
+            <option value="Desert" {% if location.type == 'Desert' %}selected{% endif %}>Desert</option>
+            <option value="Indoor" {% if location.type == 'Indoor' %}selected{% endif %}>Indoor</option>
+            <option value="Outdoor" {% if location.type == 'Outdoor' %}selected{% endif %}>Outdoor</option>
+        </select>
+    </div>
+    
+    <div class="mb-3">
+        <label for="size" class="form-label">Size (m²)</label>
+        <input type="number" step="0.01" class="form-control" id="size" name="size" value="{{ location.size }}" required>
+    </div>
+    
+    <div class="mb-3">
+        <label for="temperature_control" class="form-label">Temperature Control</label>
+        <select class="form-control" id="temperature_control" name="temperature_control">
+            <option value="Automated" {% if location.temperature_control == 'Automated' %}selected{% endif %}>Automated</option>
+            <option value="Manual" {% if location.temperature_control == 'Manual' %}selected{% endif %}>Manual</option>
+            <option value="Natural" {% if location.temperature_control == 'Natural' %}selected{% endif %}>Natural</option>
+        </select>
+    </div>
+    
+    <div class="mb-3">
+        <label for="humidity_control" class="form-label">Humidity Control</label>
+        <select class="form-control" id="humidity_control" name="humidity_control">
+            <option value="Automated" {% if location.humidity_control == 'Automated' %}selected{% endif %}>Automated</option>
+            <option value="Manual" {% if location.humidity_control == 'Manual' %}selected{% endif %}>Manual</option>
+            <option value="Natural" {% if location.humidity_control == 'Natural' %}selected{% endif %}>Natural</option>
+        </select>
+    </div>
+    
+    <div class="mb-3">
+        <label for="capacity" class="form-label">Capacity (plants)</label>
+        <input type="number" class="form-control" id="capacity" name="capacity" value="{{ location.capacity }}" required>
+    </div>
+    
+    <button type="submit" class="btn btn-success">Update Location</button>
+    <a href="{{ url_for('locations') }}" class="btn btn-secondary">Cancel</a>
+</form>
+{% endblock %}

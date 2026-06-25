@@ -1,0 +1,132 @@
+{% extends "base.html" %}
+
+{% block title %}Care Schedule - {{ plant.name }}{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-md-12">
+        <div class="d-flex justify-content-between align-items-center">
+            <div>
+                <h1>Care Schedule for {{ plant.name }}</h1>
+                <p class="lead">Irrigation and nutrient management</p>
+            </div>
+            <a href="{{ url_for('plants') }}" class="btn btn-secondary">Back to Plants</a>
+        </div>
+    </div>
+</div>
+
+<div class="row mb-4">
+    <div class="col-md-12">
+        <div class="card">
+            <div class="card-header">Add New Schedule</div>
+            <div class="card-body">
+                <form method="POST" action="{{ url_for('add_care_schedule', plant_id=plant.plant_id) }}">
+                    <div class="row">
+                        <div class="col-md-3">
+                            <div class="mb-3">
+                                <label for="irrigation_time" class="form-label">Irrigation Time</label>
+                                <input type="time" class="form-control" id="irrigation_time" name="irrigation_time" required>
+                            </div>
+                        </div>
+                        
+                        <div class="col-md-2">
+                            <div class="mb-3">
+                                <label for="water_amount" class="form-label">Water Amount (ml)</label>
+                                <input type="number" step="0.01" class="form-control" id="water_amount" name="water_amount" required>
+                            </div>
+                        </div>
+                        
+                        <div class="col-md-2">
+                            <div class="mb-3">
+                                <label for="nutrient_amount" class="form-label">Nutrient Amount (ml)</label>
+                                <input type="number" step="0.01" class="form-control" id="nutrient_amount" name="nutrient_amount" required>
+                            </div>
+                        </div>
+                        
+                        <div class="col-md-3">
+                            <div class="mb-3">
+                                <label for="frequency" class="form-label">Frequency</label>
+                                <select class="form-select" id="frequency" name="frequency" required>
+                                    <option value="">Select Frequency</option>
+                                    <option value="Daily">Daily</option>
+                                    <option value="Every other day">Every other day</option>
+                                    <option value="Twice weekly">Twice weekly</option>
+                                    <option value="Weekly">Weekly</option>
+                                    <option value="Bi-weekly">Bi-weekly</option>
+                                    <option value="Monthly">Monthly</option>
+                                </select>
+                            </div>
+                        </div>
+                        
+                        <div class="col-md-2">
+                            <div class="mb-3">
+                                <label class="form-label">&nbsp;</label>
+                                <button type="submit" class="btn btn-success form-control">Add Schedule</button>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="card">
+            <div class="card-header">Care Schedule</div>
+            <div class="card-body">
+                {% if schedules %}
+                <div class="table-responsive">
+                    <table class="table table-striped">
+                        <thead>
+                            <tr>
+                                <th>Schedule ID</th>
+                                <th>Irrigation Time</th>
+                                <th>Water Amount (ml)</th>
+                                <th>Nutrient Amount (ml)</th>
+                                <th>Frequency</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for schedule in schedules %}
+                            <tr>
+                                <td>{{ schedule.schedule_id }}</td>
+                                <td>{{ schedule.irrigation_time }}</td>
+                                <td>{{ schedule.water_amount }}</td>
+                                <td>{{ schedule.nutrient_amount }}</td>
+                                <td>{{ schedule.frequency }}</td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+                {% else %}
+                <p>No care schedule available for this plant.</p>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row mt-4">
+    <div class="col-md-12">
+        <div class="card">
+            <div class="card-header">Plant Information</div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-3">
+                        <p><strong>Name:</strong> {{ plant.name }}</p>
+                    </div>
+                    <div class="col-md-3">
+                        <p><strong>Species:</strong> {{ plant.species }}</p>
+                    </div>
+                    <div class="col-md-3">
+                        <p><strong>Growth Stage:</strong> {{ plant.growth_stage }}</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

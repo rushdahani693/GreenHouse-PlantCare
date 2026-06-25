@@ -1,0 +1,53 @@
+{% extends "base.html" %}
+
+{% block title %}Edit Fertilizer - Greenhouse Manager{% endblock %}
+
+{% block content %}
+<h1>Edit Fertilizer</h1>
+
+<form method="POST" class="mt-4">
+    <div class="mb-3">
+        <label for="name" class="form-label">Name</label>
+        <input type="text" class="form-control" id="name" name="name" value="{{ fertilizer.name }}" required>
+    </div>
+    
+    <div class="mb-3">
+        <label for="type" class="form-label">Type</label>
+        <select class="form-control" id="type" name="type">
+            <option value="All Purpose" {% if fertilizer.type == 'All Purpose' %}selected{% endif %}>All Purpose</option>
+            <option value="Organic" {% if fertilizer.type == 'Organic' %}selected{% endif %}>Organic</option>
+            <option value="Flowering" {% if fertilizer.type == 'Flowering' %}selected{% endif %}>Flowering</option>
+            <option value="Specialty" {% if fertilizer.type == 'Specialty' %}selected{% endif %}>Specialty</option>
+            <option value="Liquid" {% if fertilizer.type == 'Liquid' %}selected{% endif %}>Liquid</option>
+        </select>
+    </div>
+    
+    <div class="mb-3">
+        <label for="npk_ratio" class="form-label">NPK Ratio</label>
+        <input type="text" class="form-control" id="npk_ratio" name="npk_ratio" value="{{ fertilizer.npk_ratio }}">
+    </div>
+    
+    <div class="mb-3">
+        <label for="quantity_available" class="form-label">Quantity Available</label>
+        <input type="number" step="0.01" class="form-control" id="quantity_available" name="quantity_available" value="{{ fertilizer.quantity_available }}" required>
+    </div>
+    
+    <div class="mb-3">
+        <label for="unit" class="form-label">Unit</label>
+        <select class="form-control" id="unit" name="unit">
+            <option value="kg" {% if fertilizer.unit == 'kg' %}selected{% endif %}>kg</option>
+            <option value="L" {% if fertilizer.unit == 'L' %}selected{% endif %}>L</option>
+            <option value="lb" {% if fertilizer.unit == 'lb' %}selected{% endif %}>lb</option>
+            <option value="gal" {% if fertilizer.unit == 'gal' %}selected{% endif %}>gal</option>
+        </select>
+    </div>
+    
+    <div class="mb-3">
+        <label for="cost_per_unit" class="form-label">Cost per Unit ($)</label>
+        <input type="number" step="0.01" class="form-control" id="cost_per_unit" name="cost_per_unit" value="{{ fertilizer.cost_per_unit }}" required>
+    </div>
+    
+    <button type="submit" class="btn btn-success">Update Fertilizer</button>
+    <a href="{{ url_for('fertilizers') }}" class="btn btn-secondary">Cancel</a>
+</form>
+{% endblock %}

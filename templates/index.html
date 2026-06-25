@@ -1,0 +1,138 @@
+{% extends "base.html" %}
+
+{% block title %}Dashboard - Greenhouse Plant Care{% endblock %}
+
+{% block content %}
+<!-- Hero Header -->
+<div class="page-header">
+    <div class="container">
+        <h1>🌿 Greenhouse Dashboard</h1>
+        <p>Monitor and manage your plants efficiently with real-time insights</p>
+    </div>
+</div>
+
+<!-- Stats Cards -->
+<div class="row mb-4">
+    <div class="col-md-3 mb-3">
+        <div class="stats-card">
+            <div class="icon">🌱</div>
+            <h3>{{ plants_count }}</h3>
+            <p>Total Plants</p>
+            <a href="{{ url_for('plants') }}" class="btn btn-outline-success btn-sm mt-2">View All</a>
+        </div>
+    </div>
+    <div class="col-md-3 mb-3">
+        <div class="stats-card">
+            <div class="icon">📍</div>
+            <h3>5</h3>
+            <p>Locations</p>
+            <a href="{{ url_for('locations') }}" class="btn btn-outline-success btn-sm mt-2">Explore</a>
+        </div>
+    </div>
+    <div class="col-md-3 mb-3">
+        <div class="stats-card">
+            <div class="icon">👨‍🌾</div>
+            <h3>7</h3>
+            <p>Caretakers</p>
+            <a href="{{ url_for('caretakers') }}" class="btn btn-outline-success btn-sm mt-2">View Team</a>
+        </div>
+    </div>
+    <div class="col-md-3 mb-3">
+        <div class="stats-card">
+            <div class="icon">🧪</div>
+            <h3>13</h3>
+            <p>Fertilizers</p>
+            <a href="{{ url_for('fertilizers') }}" class="btn btn-outline-success btn-sm mt-2">Browse</a>
+        </div>
+    </div>
+</div>
+
+<!-- Recent Alerts -->
+<div class="row mb-4">
+    <div class="col-md-12">
+        <div class="table-container">
+            <div class="d-flex justify-content-between align-items-center mb-3">
+                <h2 style="color: var(--primary-green); margin: 0;">⚠️ Recent Alerts</h2>
+                {% if recent_alerts %}
+                <span class="badge bg-danger">{{ recent_alerts|length }} active</span>
+                {% endif %}
+            </div>
+            {% if recent_alerts %}
+            <div class="table-responsive">
+                <table class="table table-hover">
+                    <thead>
+                        <tr>
+                            <th>Plant</th>
+                            <th>Message</th>
+                            <th>Severity</th>
+                            <th>Date</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for alert in recent_alerts %}
+                        <tr>
+                            <td><strong>{{ alert.plant_name }}</strong></td>
+                            <td>{{ alert.message }}</td>
+                            <td>
+                                <span class="badge bg-{% if alert.severity == 'high' or alert.severity == 'critical' %}danger{% elif alert.severity == 'medium' %}warning{% else %}secondary{% endif %}">
+                                    {{ alert.severity|upper }}
+                                </span>
+                            </td>
+                            <td>{{ alert['created_at'] }}</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+            {% else %}
+            <div class="alert alert-info">
+                <strong>✓ All good!</strong> No recent alerts to display.
+            </div>
+            {% endif %}
+        </div>
+    </div>
+</div>
+
+<!-- Recent Sensor Readings -->
+<div class="row">
+    <div class="col-md-12">
+        <div class="table-container">
+            <h2 style="color: var(--primary-green); margin-bottom: 1.5rem;">📊 Recent Sensor Readings</h2>
+            {% if recent_sensors %}
+            <div class="table-responsive">
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th>Plant</th>
+                            <th>🌡️ Temperature</th>
+                            <th>💧 Humidity</th>
+                            <th>🌊 Soil Moisture</th>
+                            <th>⚗️ pH Level</th>
+                            <th>☀️ Light</th>
+                            <th>📅 Recorded</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for sensor in recent_sensors %}
+                        <tr>
+                            <td><strong>{{ sensor.plant_name }}</strong></td>
+                            <td>{{ "%.1f"|format(sensor.temperature) }}°C</td>
+                            <td>{{ "%.1f"|format(sensor.humidity) }}%</td>
+                            <td>{{ "%.1f"|format(sensor.soil_moisture) }}%</td>
+                            <td>{{ "%.1f"|format(sensor.ph_level) }}</td>
+                            <td>{{ "%.1f"|format(sensor.light_intensity) }}</td>
+                            <td>{{ sensor['recorded_at'] }}</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+            {% else %}
+            <div class="alert alert-info">
+                <strong>ℹ️ No data yet.</strong> Start adding sensor readings to track plant health.
+            </div>
+            {% endif %}
+        </div>
+    </div>
+</div>
+{% endblock %}

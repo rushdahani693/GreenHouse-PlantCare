@@ -1,0 +1,64 @@
+{% extends "base.html" %}
+
+{% block title %}Locations - Greenhouse Manager{% endblock %}
+
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <div>
+        <h1>📍 Greenhouse Locations</h1>
+        <p class="text-muted">Manage greenhouse facilities</p>
+    </div>
+    <a href="{{ url_for('add_location') }}" class="btn btn-success">+ Add New Location</a>
+</div>
+
+<!-- Search Box -->
+<div class="row mb-3">
+    <div class="col-md-6">
+        <div class="search-box">
+            <input type="text" id="searchInput" class="form-control" placeholder="Search locations by name or type..." onkeyup="searchTable('searchInput', 'locationsTable', 'locationCount')">
+        </div>
+    </div>
+    <div class="col-md-6 text-end">
+        <span class="badge bg-secondary">Total: <span id="locationCount">{{ locations|length }}</span> locations</span>
+    </div>
+</div>
+
+<div class="table-responsive">
+    <table class="table table-striped table-hover" id="locationsTable">
+        <thead class="table-dark">
+            <tr>
+                <th class="sortable" onclick="sortTable('locationsTable', 0)">ID</th>
+                <th class="sortable" onclick="sortTable('locationsTable', 1)">Name</th>
+                <th class="sortable" onclick="sortTable('locationsTable', 2)">Type</th>
+                <th class="sortable" onclick="sortTable('locationsTable', 3)">Size (m²)</th>
+                <th class="sortable" onclick="sortTable('locationsTable', 4)">Temperature Control</th>
+                <th class="sortable" onclick="sortTable('locationsTable', 5)">Humidity Control</th>
+                <th class="sortable" onclick="sortTable('locationsTable', 6)">Capacity</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for location in locations %}
+            <tr>
+                <td>{{ location.location_id }}</td>
+                <td><strong>{{ location.name }}</strong></td>
+                <td><span class="badge bg-success">{{ location.type }}</span></td>
+                <td>{{ location.size }}</td>
+                <td>{{ location.temperature_control }}</td>
+                <td>{{ location.humidity_control }}</td>
+                <td>{{ location.capacity }}</td>
+                <td>
+                    <div class="btn-group" role="group">
+                        <a href="{{ url_for('edit_location', location_id=location.location_id) }}" class="btn btn-outline-info btn-sm">Edit</a>
+                        <a href="{{ url_for('delete_location', location_id=location.location_id) }}" class="btn btn-outline-danger btn-sm" onclick="return confirm('Are you sure you want to delete this location?')">Delete</a>
+                    </div>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}
+
+{% block scripts %}
+{% endblock %}
